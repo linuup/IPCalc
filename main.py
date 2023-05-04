@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtWidgets import QApplication, QMainWindow, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from ipCalc import availableIpSize, ipMask, ipToIPBin, ipNetAddress, numToBinNum, binNumToDEC_IP
 from ui_main import Ui_Form
@@ -37,6 +37,7 @@ class mainwindow(Ui_Form, QMainWindow):
         self.ip3.setValidator(validator)
         self.ip4.setValidator(validator)
         self.maskNum.setValidator(validator)
+
     def calcIpButton(self):
         self.calcDescribe.clear()
         ip1 = self.ip1.text()
@@ -53,10 +54,10 @@ class mainwindow(Ui_Form, QMainWindow):
         self.maskNumInput()
         self.leftIP_InfoInput()
 
-
     # 子网掩码
     def maskNumInput(self):
-        info = "掩码位数"+str(self.maskNumber)+"  ->  32位二进制数ip中,前"+str(self.maskNumber)+"位为1,后"+str(32-self.maskNumber)+"位为0\n"
+        info = "掩码位数" + str(self.maskNumber) + "  ->  32位二进制数ip中,前" + str(self.maskNumber) + "位为1,后" + str(
+            32 - self.maskNumber) + "位为0\n"
         self.content.insertPlainText("\n\n子网掩码================================\n\n")
         self.content.insertPlainText(info)
         # print("掩码位数%s->32位二进制数ip中,前"+str(self.maskNumber)+"位为1,后"+str(32-self.maskNumber)+"位为0\n")
@@ -67,7 +68,7 @@ class mainwindow(Ui_Form, QMainWindow):
         self.content.insertPlainText(maskBin)
         self.content.insertPlainText("\n↓\n")
         self.content.insertPlainText(mask)
-        self.content.insertPlainText("\n二进制IP转为10进制后就是子网掩码:"+mask)
+        self.content.insertPlainText("\n二进制IP转为10进制后就是子网掩码:" + mask)
         maskList = mask.split(".")
         self.maskNum1.setText(maskList[0])
         self.maskNum2.setText(maskList[1])
@@ -77,11 +78,11 @@ class mainwindow(Ui_Form, QMainWindow):
     # 网络地址、广播地址、第一个可用地址、最后一个可用地址
     def leftIP_InfoInput(self):
         self.content.insertPlainText("\n\n网络地址================================\n\n")
-        self.content.insertPlainText("\n广播地址是指ip地址的主机位全为0\n")
+        self.content.insertPlainText("\n网络地址是指ip地址的主机位全为0\n")
         self.content.insertPlainText("\n首先将ip的二进制形式与子网掩码的二进制形式进行与运算：\n")
         self.content.insertPlainText("运算规则：\n0&0=0;  0&1=0;   1&0=0;    1&1=1;\n即：两位同时为“1”，结果才为“1”，否则为0\n")
-        self.content.insertPlainText(self.ip+"的二进制形式为：\n")
-        self.content.insertPlainText(str(self.maskNumber)+"的二进制形式为：\n")
+        self.content.insertPlainText(self.ip + "的二进制形式为：\n")
+        self.content.insertPlainText(str(self.maskNumber) + "的二进制形式为：\n")
 
         ipBin = ipToIPBin(self.ip)
         self.content.insertPlainText(ipBin)
@@ -106,14 +107,14 @@ class mainwindow(Ui_Form, QMainWindow):
         self.content.insertPlainText("\n\n广播地址================================\n")
         self.content.insertPlainText("\n广播地址是指ip地址的主机位全为1\n")
         self.content.insertPlainText("\n")
-        self.content.insertPlainText(info+"的二进制形式为:\n"+ipToIPBin(info))
-        self.content.insertPlainText("\n↓  将后" + str(32-self.maskNumber) + "位全部设置为1\n")
+        self.content.insertPlainText(info + "的二进制形式为:\n" + ipToIPBin(info))
+        self.content.insertPlainText("\n↓  将后" + str(32 - self.maskNumber) + "位全部设置为1\n")
         info = list(ipToIPBin(info))
         for index in range(0, 32):
             if index >= self.maskNumber:
                 info[index] = '1'
         self.content.insertPlainText(''.join(info))
-        self.content.insertPlainText("\n转为10进制IP就是广播地址："+broadcastAddress)
+        self.content.insertPlainText("\n转为10进制IP就是广播地址：" + broadcastAddress)
 
         broadcastAddressList = broadcastAddress.split(".")
         self.guangbo1.setText(broadcastAddressList[0])
@@ -122,11 +123,11 @@ class mainwindow(Ui_Form, QMainWindow):
         self.guangbo4.setText(broadcastAddressList[3])
         self.content.insertPlainText("\n\n第一个可用地址================================\n\n")
         self.content.insertPlainText("第一个可用地址等于网络地址+1\n")
-        self.content.insertPlainText("网络地址：\n"+netAddress+"\n")
+        self.content.insertPlainText("网络地址：\n" + netAddress + "\n")
         self.content.insertPlainText(ipToIPBin(netAddress))
         self.content.insertPlainText("\n↓  +1\n")
         self.content.insertPlainText(ipToIPBin(firstIp))
-        self.content.insertPlainText("\n第一个可用地址："+firstIp)
+        self.content.insertPlainText("\n第一个可用地址：" + firstIp)
         firstIpList = firstIp.split(".")
         self.firstIP1.setText(firstIpList[0])
         self.firstIP2.setText(firstIpList[1])
@@ -144,6 +145,7 @@ class mainwindow(Ui_Form, QMainWindow):
         self.lastIP2.setText(lastIpList[1])
         self.lastIP3.setText(lastIpList[2])
         self.lastIP4.setText(lastIpList[3])
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
